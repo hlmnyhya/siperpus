@@ -31,13 +31,13 @@ CREATE TABLE `anggota` (
   `id_anggota` int NOT NULL,
   `nama` varchar(255) DEFAULT NULL,
   `nis` varchar(50) NOT NULL,
-  `jenis_kelamin` enum('Laki-Laki','Perempuan') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `jenis_kelamin` enum('Laki-Laki','Perempuan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `tempat_lahir` varchar(500) NOT NULL,
   `tanggal_lahir` date NOT NULL,
   `alamat` text,
   `telp` varchar(20) DEFAULT NULL,
   `foto` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `anggota`
@@ -64,7 +64,7 @@ CREATE TABLE `buku` (
   `id_penerbit` int DEFAULT NULL,
   `id_kategori_buku` int DEFAULT NULL,
   `id_rak` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `buku`
@@ -87,7 +87,7 @@ INSERT INTO `buku` (`id_buku`, `judul`, `tahun_terbit`, `jumlah`, `isbn`, `cover
 CREATE TABLE `kategori_buku` (
   `id_kategori_buku` int NOT NULL,
   `kategori` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `kategori_buku`
@@ -108,7 +108,7 @@ CREATE TABLE `peminjaman` (
   `tanggal_kembali` date DEFAULT NULL,
   `id_anggota` int DEFAULT NULL,
   `id_petugas` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `peminjaman`
@@ -127,7 +127,7 @@ INSERT INTO `peminjaman` (`id_peminjaman`, `tanggal_pinjam`, `tanggal_kembali`, 
 CREATE TABLE `peminjaman_detail` (
   `id_peminjaman` int DEFAULT NULL,
   `id_buku` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -140,7 +140,7 @@ CREATE TABLE `penerbit` (
   `nama` varchar(255) DEFAULT NULL,
   `alamat` text,
   `telp` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `penerbit`
@@ -160,7 +160,7 @@ CREATE TABLE `pengarang` (
   `nama` varchar(255) DEFAULT NULL,
   `alamat` text,
   `telp` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pengarang`
@@ -182,7 +182,7 @@ CREATE TABLE `pengembalian` (
   `id_peminjaman` int DEFAULT NULL,
   `id_anggota` int DEFAULT NULL,
   `id_petugas` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -193,7 +193,7 @@ CREATE TABLE `pengembalian` (
 CREATE TABLE `pengembalian_detail` (
   `id_pengembalian` int DEFAULT NULL,
   `id_buku` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -209,7 +209,7 @@ CREATE TABLE `petugas` (
   `telp` varchar(20) DEFAULT NULL,
   `alamat` text,
   `foto` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `petugas`
@@ -226,9 +226,9 @@ INSERT INTO `petugas` (`id_petugas`, `username`, `password`, `nama`, `telp`, `al
 
 CREATE TABLE `rak` (
   `id_rak` int NOT NULL,
-  `kode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `kode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `lokasi` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `rak`
