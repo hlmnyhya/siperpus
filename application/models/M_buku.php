@@ -21,16 +21,17 @@ class M_buku extends CI_Model
     rak.kode AS kode_rak, 
     rak.lokasi, 
     kategori_buku.kategori
-    FROM 
-        buku
-    INNER JOIN 
-        pengarang ON buku.id_pengarang = pengarang.id_pengarang
-    INNER JOIN 
-        penerbit ON buku.id_penerbit = penerbit.id_penerbit
-    INNER JOIN 
-        rak ON buku.id_rak = rak.id_rak
-    INNER JOIN 
-        kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku;
+FROM 
+    buku
+LEFT JOIN 
+    pengarang ON buku.id_pengarang = pengarang.id_pengarang
+LEFT JOIN 
+    penerbit ON buku.id_penerbit = penerbit.id_penerbit
+LEFT JOIN 
+    rak ON buku.id_rak = rak.id_rak
+LEFT JOIN 
+    kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku;
+
     ")->result();
     }
 

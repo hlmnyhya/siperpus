@@ -11,7 +11,7 @@ class PrintKartu extends CI_Controller {
         $this->load->view('partials/header',$data);
         $this->load->view('petugas/anggota/cetak_anggota', $data);
     }
-
+    
     public function cetak_anggota()
 	{
 		$data['title'] = 'SIPERPUS';

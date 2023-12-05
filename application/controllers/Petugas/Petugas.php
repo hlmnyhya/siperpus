@@ -27,7 +27,7 @@ class Petugas extends CI_Controller {
 	}
 
     public function tambah_data_aksi()
-{
+    {
     $nama = htmlspecialchars($this->input->post('nama'));
     $username = htmlspecialchars($this->input->post('username'));
     $password = htmlspecialchars(md5($this->input->post('password')));

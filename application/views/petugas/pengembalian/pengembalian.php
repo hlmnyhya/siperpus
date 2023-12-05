@@ -50,21 +50,7 @@
                                 }
                                 ?>
                             </td>
-                            <td>
-                                <?php 
-                                if ($user->tanggal_kembali != null && $user->tanggal_kembali >= date('Y-m-d')) {
-                                    $tanggal_pengembalian = new DateTime($user->tanggal_pengembalian ?? 'now'); // Gunakan 'now' jika tanggal_pengembalian                             kosong
-                                    $tanggal_sekarang = new DateTime(date('Y-m-d'));
-                                    $selisih_hari = $tanggal_pengembalian->diff($tanggal_sekarang)->days;
-                                    $nominal = 1000;
-                                    $total_denda = $nominal * $selisih_hari;
-                                    echo "Rp. " . number_format($total_denda, 0, ',', '.');
-                                } else {
-                                    echo "Rp. " . number_format($user->denda, 0, ',', '.');
-                                }
-                                ?>
-                            </td>
-                            </td>
+                            <td><?php echo $user->denda; ?></td>
                             <td><?php echo $user->nama_anggota; ?></td>
                             <td><?php echo $user->nama_petugas; ?></td>
                             <td>
