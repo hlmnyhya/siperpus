@@ -17,7 +17,7 @@ class M_count extends CI_Model
     }
     public function total_denda()
     {
-    $query = $this->db->query("SELECT SUM(denda) as total_denda FROM pengembalian")->row()->total_denda;
+    $query = $this->db->query("SELECT SUM(denda) as total_denda FROM peminjaman_detail")->row()->total_denda;
     return $query;
     }
 

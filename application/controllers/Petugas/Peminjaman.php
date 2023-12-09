@@ -80,6 +80,7 @@ class Peminjaman extends CI_Controller
 {
     $id_buku = $this->input->post('id_buku');
     $id_peminjaman = $this->input->post('id_peminjaman');
+    $tanggal_pengembalian = $this->input->post('tanggal_pengembalian');
 
     // Ambil jumlah buku yang tersedia dari tabel buku
     $buku = $this->M_peminjaman->get_buku_by_id($id_buku);
@@ -96,7 +97,9 @@ class Peminjaman extends CI_Controller
             // Tambahkan data ke tabel peminjaman_detail
             $data_peminjaman_detail = array(
                 'id_peminjaman' => $id_peminjaman,
-                'id_buku' => $id_buku
+                'id_buku' => $id_buku,
+                'tanggal_pengembalian' => $tanggal_pengembalian,
+                'status' => 'Belum Kembali'
             );
             $inserted = $this->M_peminjaman->insert_data($data_peminjaman_detail, 'peminjaman_detail');
 
@@ -135,10 +138,13 @@ class Peminjaman extends CI_Controller
     redirect('petugas_data_peminjaman');
 }
 
-public function update_data_aksi_buku()
+public function update_data_aksi_buku($id_buku)
 {
-    $id_buku = $this->input->post('id_buku');
     $id_peminjaman = $this->input->post('id_peminjaman');
+    // $tanggal_pengembalian = date('Y-m-d');
+    $tanggal_pengembalian = $this->input->post('tanggal_pengembalian');
+    $denda = $this->input->post('denda');
+    $status = $this->input->post('status');
 
     // Ambil jumlah buku yang tersedia dari tabel buku
     $buku = $this->M_peminjaman->get_buku_by_id($id_buku);
@@ -149,17 +155,20 @@ public function update_data_aksi_buku()
             // Kurangi jumlah buku yang tersedia
             $data_buku = array(
                 'jumlah' => $buku->jumlah - 1
-            );
+            );  
             $this->M_peminjaman->update_jumlah_buku($id_buku, $data_buku);
 
             // Tambahkan data ke tabel peminjaman_detail
             $data_peminjaman_detail = array(
                 'id_peminjaman' => $id_peminjaman,
-                'id_buku' => $id_buku
+                'id_buku' => $id_buku,
+                'tanggal_pengembalian' => $tanggal_pengembalian,
+                'denda' => $denda,
+                'status' => 'Sudah Kembali'
             );
 
             // Panggil fungsi update_data dari model M_peminjaman
-            $updated = $this->M_peminjaman->update_data('peminjaman_detail', $data_peminjaman_detail, array('id_peminjaman' => $id_peminjaman));
+            $updated = $this->M_peminjaman->update_data('peminjaman_detail', $data_peminjaman_detail, array('id_buku' => $id_buku));
 
             if ($updated) {
                 $this->session->set_flashdata('pesan', 'Data peminjaman detail berhasil diupdate.');
@@ -175,7 +184,6 @@ public function update_data_aksi_buku()
 
     redirect('petugas_data_peminjaman');
 }
-
 
 
     public function tambah_data_aksi() 
@@ -270,7 +278,29 @@ public function delete_data_aksi_buku($id_peminjaman)
     redirect('petugas_data_peminjaman');
 }
 
+public function delete_data_aksi($id_peminjaman)
+{
+    $where = array('id_peminjaman' => $id_peminjaman);
+    $deleted = $this->M_rak->delete_data($where, 'peminjaman');
 
+    if ($deleted) {
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Data berhasil dihapus!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
+    } else {
+        $this->session->set_flashdata('error', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Gagal menghapus data.</strong> Silakan coba lagi nanti.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
+    }
+
+    redirect('petugas_data_buku');
+}
 
 
 }

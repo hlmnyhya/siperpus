@@ -7,6 +7,7 @@ class Pengembalian extends CI_Controller
     {
 		$data['title'] = 'SIPERPUS';
 		$data['pengembalian'] = $this->M_pengembalian->show_data();
+        $data['buku'] = $this->M_buku->show_data();
 		$this->load->view('partials/header',$data);
 		$this->load->view('partials/navbar');
 		$this->load->view('partials/sidebar_petugas');
@@ -14,22 +15,57 @@ class Pengembalian extends CI_Controller
 		$this->load->view('partials/footer');
 	}
 
-    public function Detail_Pengembalian($id_pengembalian)
+    public function edit_pengembalian_buku($id_peminjaman)
 	{
-		$where = array('id_pengembalian' => $id_pengembalian);
-		$data['title'] = 'SIPERPUS';
-	    $data['users'] = $this->db->query("SELECT pd.`id_peminjaman`, pd.`id_buku`, p.`tanggal_pinjam`, p.`tanggal_kembali`, p.`id_anggota`, p.`id_petugas`,
-        b.`judul`, b.`tahun_terbit`, b.`jumlah`, b.`isbn`, b.`id_pengarang`, b.`id_penerbit`, b.`id_kategori_buku`, b.`id_rak`
-        FROM `peminjaman_detail` pd
-        JOIN `peminjaman` p ON pd.`id_peminjaman` = p.`id_peminjaman`
-        JOIN `buku` b ON pd.`id_buku` = b.`id_buku` 
-        WHERE p.`id_peminjaman` ='$id_pengembalian';")->result();
-        $this->load->view('partials/header',$data);
+		$where = array('id_peminjaman' => $id_peminjaman);
+        $data['users'] = $this->db->query("SELECT pd.*, b.judul, p.tanggal_pinjam, p.tanggal_kembali, p.id_anggota, p.id_petugas FROM peminjaman_detail pd JOIN buku b ON pd.id_buku = b.id_buku JOIN peminjaman p ON pd.id_peminjaman = p.id_peminjaman WHERE pd.id_peminjaman = '$id_peminjaman' AND pd.status = 'Belum Kembali'")->result();
+		$data['title'] = "SIPERPUS";
+        $data['buku'] = $this->M_buku->show_data();
+        $data['anggota'] = $this->M_anggota->show_data();
+		$data['petugas'] = $this->M_petugas->show_data();
+		$this->load->view('partials/header',$data);
 		$this->load->view('partials/navbar');
 		$this->load->view('partials/sidebar_petugas');
-        $this->load->view('petugas/pengembalian/detail_pengembalian', $data);
+        $this->load->view('petugas/pengembalian/ubah_pengembalian_buku',$data);
         $this->load->view('partials/footer');
 	}
+
+//     public function Detail_Pengembalian($id_peminjaman)
+// {
+//     $data['title'] = 'SIPERPUS';
+//     $where = array('id_peminjaman' => $id_peminjaman);
+//     $data['users'] = $this->db->query("SELECT 
+//     pd.*,
+//     b.judul
+// FROM 
+//     pengembalian_detail pd
+// JOIN 
+//     buku b ON pd.id_buku = b.id_buku
+// WHERE 
+//     pd.id_pengembalian = '$id_peminjaman';
+// ")->result();
+
+//     // Load views
+//     $this->load->view('partials/header', $data);
+//     $this->load->view('partials/navbar');
+//     $this->load->view('partials/sidebar_petugas');
+//     $this->load->view('petugas/pengembalian/detail_pengembalian', $data);
+//     $this->load->view('partials/footer');
+// }
+
+   public function Tambah_Buku($id_peminjaman) 
+	{
+		$where = array('id_peminjaman' => $id_peminjaman);
+		$data['title'] = 'SIPERPUS';
+		$data['buku'] = $this->M_buku->show_data();
+        $data['pengembalian'] = $this->M_pengembalian->show_data();
+		$data['users'] = $this->db->query("SELECT  pd.id_peminjaman, pd.id_buku, b.judul FROM  peminjaman_detail pd JOIN  buku b ON pd.id_buku = b.id_buku WHERE pd.id_peminjaman = '$id_peminjaman';")->result();
+		$this->load->view('partials/header',$data);
+		$this->load->view('partials/navbar');
+		$this->load->view('partials/sidebar_petugas');
+        $this->load->view('petugas/pengembalian/tambah_buku',$data);
+		$this->load->view('partials/footer');
+    }
 
 public function tambah_data_aksi() 
 {
@@ -38,10 +74,44 @@ public function tambah_data_aksi()
         'denda' => $this->input->post('denda'),
         'id_peminjaman' => $this->input->post('id_peminjaman'),
         'id_anggota' => $this->input->post('id_anggota'),
-        'id_petugas' => $this->input->post('id_petugas')
+        'id_petugas' => $this->input->post('id_petugas'),
+        'id_buku' => $this->input->post('id_buku'),
+
     );
 
     $inserted = $this->M_pengembalian->insert_data($data, 'pengembalian');
+
+    if ($inserted) {
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Data berhasil ditambahkan!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
+    } else {
+        $this->session->set_flashdata('error', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Gagal menambahkan data.</strong> Silakan coba lagi nanti.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
+    }
+
+    redirect('petugas_data_pengembalian');
+}
+
+public function tambah_data_kembali_aksi() 
+{
+    $data = array(
+        'id_pengembalian' => $this->input->post('id_pengembalian'),
+        'id_buku' => $this->input->post('id_buku'),
+        'tanggal_pinjam' => $this->input->post('tanggal_pinjam'),
+        'tanggal_kembali' => $this->input->post('tanggal_kembali'),
+        'denda' => $this->input->post('denda')
+
+    );
+
+    $inserted = $this->M_pengembalian->insert_data($data, 'pengembalian_detail');
 
     if ($inserted) {
         $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -89,5 +159,29 @@ public function delete_data_aksi_buku($id_peminjaman)
     }
 
     redirect('petugas_data_pengembalian');
+}
+
+public function delete_data_aksi($id_peminjaman)
+{
+    $where = array('id_peminjaman' => $id_peminjaman);
+    $deleted = $this->M_rak->delete_data($where, 'peminjaman');
+
+    if ($deleted) {
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Data berhasil dihapus!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
+    } else {
+        $this->session->set_flashdata('error', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Gagal menghapus data.</strong> Silakan coba lagi nanti.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
+    }
+
+    redirect('petugas_data_buku');
 }
 }

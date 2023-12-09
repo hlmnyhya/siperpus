@@ -22,24 +22,19 @@
                         <tr>
                             <th>No</th>
                             <th>Judul</th>
-                            <th>ISBN</th>
                             <th>Tanggal Pinjam</th>
                             <th>Tanggal Kembali</th>
-                            <!-- <th>Aksi</th> -->
+                            <th>Denda</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $no=1; foreach ($users as $user): ?>
                         <tr>
                             <td><?php echo $no++ ?></td>    
-                            <td><?php echo $user->judul; ?></td>
-                            <td><?php echo $user->isbn; ?></td>
-                            <td><?php echo $user->tanggal_pinjam; ?></td>
-                            <td><?php echo $user->tanggal_kembali; ?></td>
-                            <!-- <td>
-                              <a href="<?php echo base_url('ubah_permohonan_item/'.$user->id_pengembalian); ?>" class="btn btn-warning"><i class="mdi mdi-pencil"></i><span>Ubah</span></a>
-                              <a href="<?php echo base_url('hapus_permohonan_item/'.$user->id_pengembalian); ?>" class="btn btn-danger"><i class="mdi mdi-delete"></i><span>Hapus</span></a>
-                            </td> -->
+                            <td><?php echo $user->judul ?></td>    
+                            <td><?php echo $user->tanggal_pinjam ?></td>    
+                            <td><?php echo $user->tanggal_kembali ?></td>    
+                            <td><?php echo $user->denda ?></td>    
                         </tr>
                         <?php endforeach;?>
                     </tbody>
@@ -47,10 +42,9 @@
                         <tr>
                             <th>No</th>
                             <th>Judul</th>
-                            <th>ISBN</th>
                             <th>Tanggal Pinjam</th>
                             <th>Tanggal Kembali</th>
-                            <!-- <th>Aksi</th> -->
+                            <th>Denda</th>
                         </tr>
                     </tfoot>
                 </table>

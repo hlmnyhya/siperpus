@@ -34,8 +34,8 @@
                             <td><?php echo $no++ ?></td>    
                             <td><?php echo $user->judul; ?></td>
                             <td><?php echo $user->isbn; ?></td>
-                            <td><?php echo $user->tanggal_pinjam; ?></td>
-                            <td><?php echo $user->tanggal_kembali; ?></td>
+                            <td><?php echo date('d F Y', strtotime($user->tanggal_pinjam)); ?></td>
+                            <td><?php echo date('d F Y', strtotime($user->tanggal_kembali)); ?></td>
                             <td>
                               <a href="<?php echo base_url('peminjaman/ubah_buku/'.$user->id_peminjaman); ?>" class="btn btn-warning"><i class="mdi mdi-pencil"></i><span>Ubah</span></a>
                               <a href="<?php echo base_url('peminjaman/hapus_buku/'.$user->id_peminjaman); ?>" class="btn btn-danger"><i class="mdi mdi-delete"></i><span>Hapus</span></a>

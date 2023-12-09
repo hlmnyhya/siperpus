@@ -16,9 +16,9 @@
     <div>
          <div class="card">
           <div class="card-body">
-          <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#tambahDivisiModal">
+          <!-- <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#tambahDivisiModal">
             <i class="mdi mdi-library-plus"></i> <span>Tambah Data</span>
-            </button>
+            </button> -->
           <div class="table-responsive">
             <table id="zero_config" class="table table-striped table-bordered">
                     <thead>
@@ -26,8 +26,6 @@
                             <th>No</th>
                             <th>Tanggal Pinjam</th>
                             <th>Tanggal Kembali</th>
-                            <th>Tanggal Kembali Real</th>
-                            <th>Denda</th>
                             <th>Nama Anggota</th>
                             <th>Nama Petugas</th>
                             <th>Aksi</th>
@@ -37,25 +35,12 @@
                         <?php $no=1; foreach ($pengembalian as $user): ?>
                         <tr>
                             <td><?php echo $no++ ?></td>    
-                            <td><?php echo $user->tanggal_pinjam;?></td>
-                            <td><?php echo $user->tanggal_kembali;?></td>
-                            <td>
-                                <?php 
-                                if ($user->tanggal_kembali >= date('Y-m-d') && $user->tanggal_pengembalian == NULL) {
-                                    echo "Buku belum dikembalikan <br> Hari ini (Batas terakhir pengembalian)";
-                                } elseif ($user->tanggal_kembali != NULL) {
-                                    echo $user->tanggal_pengembalian;
-                                } else {
-                                    echo "Buku belum dikembalikan";
-                                }
-                                ?>
-                            </td>
-                            <td><?php echo $user->denda; ?></td>
+                            <td><?php echo date('d F Y', strtotime($user->tanggal_pinjam)); ?></td>
+                            <td><?php echo date('d F Y', strtotime($user->tanggal_kembali)); ?></td>
                             <td><?php echo $user->nama_anggota; ?></td>
                             <td><?php echo $user->nama_petugas; ?></td>
                             <td>
-                            <a href="<?php echo base_url('pengembalian_buku/hapus/'.$user->id_peminjaman); ?>" class="btn btn-danger"><i class="mdi mdi-delete"></i> <span>Hapus</span></a>
-                            <a href="<?php echo base_url('pengembalian_buku/detail/'.$user->id_peminjaman); ?>" class="btn btn-info"><i class="mdi mdi-eye"></i> <span>Detail</span></a>
+                                <a href="<?php echo base_url('pengembalian/ubah_buku/'.$user->id_peminjaman); ?>" class="btn btn-success"><i class="mdi mdi-library-plus"></i><span>Tandai Kembali</span></a>
                             </td>
                         </tr>
                         <?php endforeach;?>
@@ -65,8 +50,6 @@
                             <th>No</th>
                             <th>Tanggal Pinjam</th>
                             <th>Tanggal Kembali</th>
-                            <th>Tanggal Kembali Real</th>
-                            <th>Denda</th>
                             <th>Nama Anggota</th>
                             <th>Nama Petugas</th>
                             <th>Aksi</th>
@@ -81,20 +64,24 @@
    </div>
 
 <!-- Modal Tambah User -->
-<div class="modal fade" id="tambahDivisiModal" tabindex="-1" role="dialog" aria-labelledby="tambahUserModalLabel"
+<div class="modal fade" id="tambahKembaliBuku" tabindex="-1" role="dialog" aria-labelledby="tambahUserModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="tambahUserModalLabel">Tambah Data Peminjaman</h5>
+                <h5 class="modal-title" id="tambahUserModalLabel">Tambah Data Pengembalian</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <!-- Form Tambah User -->
-                <form id="formTambahUser" action="<?= base_url('petugas_tambah_data_pengembalian')?>" method="POST"
+                <form id="formTambahUser" action="<?= base_url('petugas_tambah_data_pengembalian_real')?>" method="POST"
                     enctype="multipart/form-data">
+                    <div class="form-group">
+                    <input type="text" class="form-control" id="id_pengembalian" name="id_pengembalian" value="<?php echo $user->id_peminjaman;?>" readonly>
+                        <input type="date" class="form-control" id="tanggal_pinjam" name="tanggal_pinjam" value="<?php echo $user->tanggal_pinjam;?>" readonly>
+                    </div>
                     <div class="form-group">
                     <label for="tanggal_kembali">Tanggal Kembali</label>
                         <input type="date" class="form-control" id="tanggal_kembali" name="tanggal_kembali" value="<?php echo $user->tanggal_kembali;?>" readonly>
@@ -106,9 +93,16 @@
                     <div class="form-group">
                         <label for="denda">Denda</label>
                         <input type="text" class="form-control" id="denda" name="denda" readonly>
-                        <input type="hidden" class="form-control" id="id_peminjaman" name="id_peminjaman" value="<?php echo $user->id_peminjaman;?>"                    required>
-                        <input type="hidden" class="form-control" id="id_anggota" name="id_anggota" value="<?php echo $user->id_anggota;?>" required>
-                        <input type="hidden" class="form-control" id="id_petugas" name="id_petugas" value="<?php echo $user->id_petugas;?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_lahir">Buku</label>
+                        <input type="hidden" class="form-control" id="id_peminjaman" name="id_peminjaman" value="<?php echo $user->id_peminjaman; ?>" required>
+                        <select class="form-control" id="id_buku" name="id_buku" required>
+                        <option value="">Pilih Buku</option>
+                        <?php foreach ($buku as $row): ?>
+                            <option value="<?= $row->id_buku; ?>"><?= $row->judul; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                     </div>
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
@@ -117,6 +111,48 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Tambah User -->
+<!-- <div class="modal fade" id="tambahKembaliBuku222" tabindex="-1" role="dialog" aria-labelledby="tambahUserModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tambahUserModalLabel">Tambah Data Pengembalian</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formTambahUser" action="<?= base_url('petugas_tambah_data_pengembalian_real')?>" method="POST"
+                    enctype="multipart/form-data">
+                    <div class="form-group">
+                    <label for="tanggal_kembali">Tanggal Pinjam</label>
+                        <input type="date" class="form-control" id="tanggal_kembali" name="tanggal_kembali" value="<?php echo $user->tanggal_pinjam;?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_pengembalian">Tanggal Pengembalian</label>
+                        <input type="date" class="form-control" id="tanggal_pengembalian" name="tanggal_pengembalian" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="denda">Denda</label>
+                        <input type="text" class="form-control" id="denda" name="denda" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_lahir">Buku</label>
+                        <input type="hidden" class="form-control" id="id_peminjaman" name="id_peminjaman" value="<?php echo $user->id_peminjaman; ?>" required>
+                        <select class="form-control" id="id_buku" name="id_buku" required>
+                        <option value="">Pilih Buku</option>
+                        <?php foreach ($buku as $row): ?>
+                            <option value="<?= $row->id_buku; ?>"><?= $row->judul; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>-->
 
 <script>
 document.getElementById('tanggal_pengembalian').addEventListener('change', function() {

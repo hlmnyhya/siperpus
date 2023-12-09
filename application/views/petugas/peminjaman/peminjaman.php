@@ -36,8 +36,8 @@
                         <?php $no=1; foreach ($peminjaman as $user): ?>
                         <tr>
                             <td><?php echo $no++ ?></td>    
-                            <td><?php echo $user->tanggal_pinjam; ?></td>
-                            <td><?php echo $user->tanggal_kembali; ?></td>
+                            <td><?php echo date('d F Y', strtotime($user->tanggal_pinjam)); ?></td>
+                            <td><?php echo date('d F Y', strtotime($user->tanggal_kembali)); ?></td>
                             <td><?php echo $user->nama_anggota; ?></td>
                             <td><?php echo $user->nama_petugas; ?></td>
                             <td><?php echo $user->telp_anggota; ?></td>

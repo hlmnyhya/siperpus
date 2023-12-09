@@ -78,13 +78,17 @@ $route['petugas_tambah_data_pengarang']= 'Petugas/Pengarang/tambah_data_aksi';
 $route['petugas_tambah_data_buku']= 'Petugas/Buku/tambah_data_aksi';
 $route['petugas_tambah_data_peminjaman']= 'Petugas/Peminjaman/tambah_data_aksi';
 $route['petugas_tambah_data_pengembalian']= 'Petugas/Pengembalian/tambah_data_aksi';
+$route['petugas_tambah_data_pengembalian_real']= 'Petugas/Pengembalian/tambah_data_kembali_aksi';
 
 $route['petugas_peminjaman/tambah_buku/(:any)']= 'Petugas/Peminjaman/Tambah_Buku/$1';
 $route['tambah_perminjaman_buku']= 'Petugas/Peminjaman/tambah_data_aksi_buku';
-
 $route['peminjaman_buku/detail/(:any)'] = 'Petugas/Peminjaman/Detail_Peminjaman/$1';
+
+$route['petugas_pengembalian/tambah_buku/(:any)']= 'Petugas/Pengembalian/Tambah_Buku/$1';
 $route['pengembalian_buku/detail/(:any)'] = 'Petugas/Pengembalian/Detail_Pengembalian/$1';
 $route['pengembalian_buku/hapus/(:any)'] = 'Petugas/Pengembalian/delete_data_aksi_buku/$1';
+
+$route['pengembalian_buku/selesai/(:any)'] = 'Petugas/Pengembalian/selesai_pinjam/$1';
 
 $route['anggota/detail/(:any)'] = 'Petugas/Anggota/detail_anggota/$1';
 $route['anggota/ubah/(:any)'] = 'Petugas/Anggota/edit_anggota/$1';
@@ -125,3 +129,9 @@ $route['petugas_ubah_data_rak']= 'Petugas/Rak/update_data_aksi';
 $route['petugas_ubah_data_buku']= 'Petugas/Buku/update_data_aksi';
 $route['petugas_ubah_data_peminjaman']= 'Petugas/Peminjaman/update_data_aksi';
 $route['ubah_peminjaman_buku']= 'Petugas/Peminjaman/update_data_aksi_buku';
+
+$route['pengembalian/ubah_buku/(:any)'] = 'Petugas/Pengembalian/edit_pengembalian_buku/$1';
+$route['pengembalian/ubah_status_buku/(:any)'] = 'Petugas/Pengembalian/update_data_aksi_buku/$1';
+
+$route['petugas_tambah_data_pengembalian_real'] = 'Petugas/Peminjaman/update_data_aksi_buku';
+
