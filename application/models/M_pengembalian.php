@@ -11,6 +11,42 @@ FROM `peminjaman` p
 JOIN `anggota` a ON p.`id_anggota` = a.`id_anggota`
 JOIN `petugas` pt ON p.`id_petugas` = pt.`id_petugas`;")->result();
     }
+
+    public function show_data_status()
+    {
+  return $this->db->query("
+    SELECT 
+        p.`id_peminjaman`, 
+        p.`tanggal_pinjam`, 
+        p.`tanggal_kembali`, 
+        a.`id_anggota`, 
+        a.`nama` AS 'nama_anggota', 
+        a.`nis`, 
+        a.`jenis_kelamin`, 
+        a.`tempat_lahir`, 
+        a.`tanggal_lahir`, 
+        a.`alamat` AS 'alamat_anggota', 
+        a.`telp` AS 'telp_anggota', 
+        a.`foto` AS 'foto_anggota',
+        pt.`id_petugas`, 
+        pt.`username`, 
+        pt.`password`, 
+        pt.`nama` AS 'nama_petugas', 
+        pt.`alamat` AS 'alamat_petugas', 
+        pt.`telp` AS 'telp_petugas', 
+        pt.`foto` AS 'foto_petugas',
+        pd.`id_buku`,
+        pd.`tanggal_pengembalian`,
+        pd.`denda`,
+        pd.`status`
+    FROM `peminjaman` p
+    JOIN `anggota` a ON p.`id_anggota` = a.`id_anggota`
+    JOIN `petugas` pt ON p.`id_petugas` = pt.`id_petugas`
+    JOIN `peminjaman_detail` pd ON p.`id_peminjaman` = pd.`id_peminjaman`
+")->result();
+
+    }
+
     public function detail_buku($id_peminjaman)
     {
         return $this->db->query("SELECT * FROM pengembalian_detail WHERE id_pengembalian = '$id_peminjaman';")->result();

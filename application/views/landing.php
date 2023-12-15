@@ -5,12 +5,12 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title></title>
+  <title><?= $title;?></title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link rel="shortcut icon" href="<?= base_url();?>assets/images/logo.png" />
+  <link rel="shortcut icon" href="<?= base_url();?>assets/images/logo2.png" />
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -66,13 +66,13 @@
       <div class="row">
         <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
           <h1>SISTEM INFORMASI PERPUSTAKAAN</h1>
-          <h2>SMPN 4 KURAU</h2>
+          <h2>SMPN 2 KURAU</h2>
           <div class="d-flex justify-content-center justify-content-lg-start">
             <a href="<?= base_url('login');?>" class="btn-get-started scrollto">Login</a>
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-          <img src="<?= base_url();?>assets/images/logo.png" width="400px" class="img-fluid animated" alt="">
+          <img src="<?= base_url();?>assets/images/logo2.png" width="400px" class="img-fluid animated" alt="">
         </div>
       </div>
     </div>
@@ -128,15 +128,15 @@
           <div class="col-lg-12">
             <center>
             <p>
-              Selamat datang di SISTEM INFORMASI PERPUSTAKAAN SMPN 4 KURAU – tempat di mana pengetahuan bertemu dengan inovasi! Kami hadir untuk membawa dunia literasi ke jari Anda. Dengan koleksi buku yang beragam dan layanan yang ramah, kami membantu Anda menjelajahi cerita-cerita tak terbatas dan mengeksplorasi ilmu pengetahuan yang luas.
+              Selamat datang di SISTEM INFORMASI PERPUSTAKAAN SMPN 2 KURAU – tempat di mana pengetahuan bertemu dengan inovasi! Kami hadir untuk membawa dunia literasi ke jari Anda. Dengan koleksi buku yang beragam dan layanan yang ramah, kami membantu Anda menjelajahi cerita-cerita tak terbatas dan mengeksplorasi ilmu pengetahuan yang luas.
               <br>
               Apa pun minat dan ketertarikan Anda, kami memiliki buku-buku terbaik untuk memenuhi keinginan literasi Anda. Dari fiksi hingga non-fiksi, dari sejarah hingga sains, kami menghadirkan berbagai judul terbaru dan klasik untuk memperkaya pikiran Anda. Sistem Informasi Perpustakaan kami memudahkan Anda mencari, meminjam, dan mengevaluasi buku dengan cepat dan mudah.
               <br>
-              Di SMPN 4 KURAU, kami percaya bahwa membaca adalah kunci untuk membuka pintu pengetahuan. Oleh karena itu, kami berkomitmen untuk menyediakan akses yang mudah dan menyenangkan ke dunia buku-buku cemerlang. Jadilah bagian dari komunitas literasi kami dan temukan keajaiban kata-kata di setiap halaman.
+              Di SMPN 2 KURAU, kami percaya bahwa membaca adalah kunci untuk membuka pintu pengetahuan. Oleh karena itu, kami berkomitmen untuk menyediakan akses yang mudah dan menyenangkan ke dunia buku-buku cemerlang. Jadilah bagian dari komunitas literasi kami dan temukan keajaiban kata-kata di setiap halaman.
               <br>
               Sistem Informasi Perpustakaan kami dirancang untuk memudahkan pengguna dalam menelusuri buku-buku, mengatur peminjaman, dan mendapatkan rekomendasi berdasarkan minat baca Anda. Bersama kami, mari jelajahi dunia pengetahuan, membaca cerita-cerita luar biasa, dan menginspirasi diri Anda setiap hari.
               <br>
-              Selamat membaca dan selamat menemukan petualangan baru di dunia literasi SMPN 4 KURAU!
+              Selamat membaca dan selamat menemukan petualangan baru di dunia literasi SMPN 2 KURAU!
             </p>
             </center>
           </div>

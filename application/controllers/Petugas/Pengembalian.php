@@ -7,6 +7,7 @@ class Pengembalian extends CI_Controller
     {
 		$data['title'] = 'SIPERPUS';
 		$data['pengembalian'] = $this->M_pengembalian->show_data();
+		$data['pengembalian'] = $this->M_pengembalian->show_data_status();
         $data['buku'] = $this->M_buku->show_data();
 		$this->load->view('partials/header',$data);
 		$this->load->view('partials/navbar');

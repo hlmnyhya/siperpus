@@ -16,7 +16,7 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="<?= base_url();?>assets/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="<?= base_url();?>assets/images/logo.png" />
+  <link rel="shortcut icon" href="<?= base_url();?>assets/images/logo2.png" />
 </head>
 
 <body>
@@ -26,7 +26,7 @@
         <div class="row w-100 mx-0">
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                <img src="<?= base_url();?>assets/images/logo.png" width="80px" alt="logo" class="mb-3">
+                <img src="<?= base_url();?>assets/images/logo2.png" width="80px" alt="logo" class="mb-3">
               <h4>Selamat Datang!</h4>
               <h6 class="font-weight-light">Silakan Login untuk melanjutkan.</h6>
                    <?= $this->session->flashdata('info'); ?>

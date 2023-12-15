@@ -24,34 +24,49 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Tanggal Pinjam</th>
-                            <th>Tanggal Kembali</th>
+                            <th>NIS</th>
                             <th>Nama Anggota</th>
                             <th>Nama Petugas</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Tanggal Kembali</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no=1; foreach ($pengembalian as $user): ?>
-                        <tr>
-                            <td><?php echo $no++ ?></td>    
-                            <td><?php echo date('d F Y', strtotime($user->tanggal_pinjam)); ?></td>
-                            <td><?php echo date('d F Y', strtotime($user->tanggal_kembali)); ?></td>
-                            <td><?php echo $user->nama_anggota; ?></td>
-                            <td><?php echo $user->nama_petugas; ?></td>
-                            <td>
-                                <a href="<?php echo base_url('pengembalian/ubah_buku/'.$user->id_peminjaman); ?>" class="btn btn-success"><i class="mdi mdi-library-plus"></i><span>Tandai Kembali</span></a>
-                            </td>
-                        </tr>
-                        <?php endforeach;?>
-                    </tbody>
+    <?php $no = 1; $prevIdPeminjaman = null; foreach ($pengembalian as $user): ?>
+        <?php if ($user->id_peminjaman != $prevIdPeminjaman): ?>
+            <tr>
+                <td><?php echo $no++ ?></td>
+                <td><?php echo $user->nis; ?></td>
+                <td><?php echo $user->nama_anggota; ?></td>
+                <td><?php echo $user->nama_petugas; ?></td>
+                <td><?php echo date('d F Y', strtotime($user->tanggal_pinjam)); ?></td>
+                <td><?php echo date('d F Y', strtotime($user->tanggal_kembali)); ?></td>
+                <td>
+                    <?php if ($user->status == "Belum Kembali"): ?>
+    <?php if ($user->id_peminjaman): ?>
+        <a href="<?= base_url('pengembalian/ubah_buku/'.$user->id_peminjaman); ?>" class="btn btn-success">
+            <i class="mdi mdi-library-plus"></i><span>Tandai Kembali</span>
+        </a>
+    <?php endif; ?>
+                    <?php elseif ($user->status == "Sudah Kembali"): ?>
+                        <span class="btn btn-success">Buku Telah Selesai Dipinjam</span>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endif; ?>
+        <?php $prevIdPeminjaman = $user->id_peminjaman; ?>
+    <?php endforeach; ?>
+</tbody>
+
                     <tfoot>
                         <tr>
                             <th>No</th>
-                            <th>Tanggal Pinjam</th>
-                            <th>Tanggal Kembali</th>
+                            <th>NIS</th>
                             <th>Nama Anggota</th>
                             <th>Nama Petugas</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Tanggal Kembali</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>

@@ -24,11 +24,12 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Tanggal Pinjam</th>
-                            <th>Tanggal Kembali</th>
+                            <th>NIS</th>
                             <th>Nama Anggota</th>
                             <th>Nama Petugas</th>
                             <th>Telpon Anggota</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Tanggal Kembali</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -36,11 +37,12 @@
                         <?php $no=1; foreach ($peminjaman as $user): ?>
                         <tr>
                             <td><?php echo $no++ ?></td>    
-                            <td><?php echo date('d F Y', strtotime($user->tanggal_pinjam)); ?></td>
-                            <td><?php echo date('d F Y', strtotime($user->tanggal_kembali)); ?></td>
+                            <td><?php echo $user->nis; ?></td>
                             <td><?php echo $user->nama_anggota; ?></td>
                             <td><?php echo $user->nama_petugas; ?></td>
                             <td><?php echo $user->telp_anggota; ?></td>
+                            <td><?php echo date('d F Y', strtotime($user->tanggal_pinjam)); ?></td>
+                            <td><?php echo date('d F Y', strtotime($user->tanggal_kembali)); ?></td>
                             <td>
                             <a href="<?php echo base_url('petugas_peminjaman/tambah_buku/'.$user->id_peminjaman); ?>" class="btn btn-success"><i class="mdi mdi-cart-plus"></i><span>Tambah Buku</span></a>
                             <a href="<?php echo base_url('peminjaman/ubah/'.$user->id_peminjaman); ?>" class="btn btn-warning"><i class="mdi mdi-pencil"></i> <span>Ubah</span></a>
@@ -53,11 +55,12 @@
                     <tfoot>
                         <tr>
                             <th>No</th>
-                            <th>Tanggal Pinjam</th>
-                            <th>Tanggal Kembali</th>
+                            <th>NIS</th>
                             <th>Nama Anggota</th>
                             <th>Nama Petugas</th>
                             <th>Telpon Anggota</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Tanggal Kembali</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
@@ -107,6 +110,15 @@
                         <option value="">Pilih Petugas</option>
                         <?php foreach ($petugas as $row): ?>
                             <option value="<?= $row->id_petugas; ?>"><?= $row->nama; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_lahir">Buku</label>
+                        <select class="form-control" id="id_buku" name="id_buku" required>
+                        <option value="">Pilih Buku</option>
+                        <?php foreach ($buku as $row): ?>
+                            <option value="<?= $row->id_buku; ?>"><?= $row->judul; ?></option>
                         <?php endforeach; ?>
                     </select>
                     </div>

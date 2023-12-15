@@ -11,9 +11,9 @@ FROM `peminjaman` p
 JOIN `anggota` a ON p.`id_anggota` = a.`id_anggota`
 JOIN `petugas` pt ON p.`id_petugas` = pt.`id_petugas`;")->result();
     }
-    public function insert_data($data, $table)
+    public function insert_data($table, $data)
     {
-       ($this->db->insert($table, $data));
+       return $this->db->insert($table, $data);
     }
 
     public function update_data($table, $data, $where)

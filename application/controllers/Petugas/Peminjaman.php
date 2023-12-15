@@ -9,6 +9,7 @@ class Peminjaman extends CI_Controller
 		$data['peminjaman'] = $this->M_peminjaman->show_data();
 		$data['anggota'] = $this->M_anggota->show_data();
 		$data['petugas'] = $this->M_petugas->show_data();
+        $data['buku'] = $this->M_buku->show_data();
 		$this->load->view('partials/header',$data);
 		$this->load->view('partials/navbar');
 		$this->load->view('partials/sidebar_petugas');
@@ -20,7 +21,7 @@ class Peminjaman extends CI_Controller
 	{
 		$where = array('id_peminjaman' => $id_peminjaman);
 		$data['title'] = 'SIPERPUS';
-		$data['users'] = $this->db->query("SELECT pd.`id_peminjaman`, pd.`id_buku`, p.`tanggal_pinjam`, p.`tanggal_kembali`, p.`id_anggota`, p.`id_petugas`,
+		$data['users'] = $this->db->query("SELECT pd.`id_peminjaman`, pd.`id_buku`, pd.`status`, p.`tanggal_pinjam`, p.`tanggal_kembali`, p.`id_anggota`, p.`id_petugas`,
         b.`judul`, b.`tahun_terbit`, b.`jumlah`, b.`isbn`, b.`id_pengarang`, b.`id_penerbit`, b.`id_kategori_buku`, b.`id_rak`
         FROM `peminjaman_detail` pd
         JOIN `peminjaman` p ON pd.`id_peminjaman` = p.`id_peminjaman`
@@ -101,7 +102,7 @@ class Peminjaman extends CI_Controller
                 'tanggal_pengembalian' => $tanggal_pengembalian,
                 'status' => 'Belum Kembali'
             );
-            $inserted = $this->M_peminjaman->insert_data($data_peminjaman_detail, 'peminjaman_detail');
+            $inserted = $this->M_peminjaman->insert_data('peminjaman_detail', $data_peminjaman_detail);
 
             if ($inserted) {
                 $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -182,39 +183,83 @@ public function update_data_aksi_buku($id_buku)
         $this->session->set_flashdata('error', 'Buku tidak ditemukan. Silakan coba lagi nanti.');
     }
 
-    redirect('petugas_data_peminjaman');
+    redirect('petugas_data_pengembalian');
 }
 
 
     public function tambah_data_aksi() 
-    {
-        $data = array(
-            'tanggal_pinjam' => $this->input->post('tanggal_pinjam'),
-            'tanggal_kembali' => $this->input->post('tanggal_kembali'),
-            'id_anggota' => $this->input->post('id_anggota'),
-            'id_petugas' => $this->input->post('id_petugas')
+{
+    // Data untuk peminjaman utama
+    $data_peminjaman = array(
+        'tanggal_pinjam' => $this->input->post('tanggal_pinjam'),
+        'tanggal_kembali' => $this->input->post('tanggal_kembali'),
+        'id_anggota' => $this->input->post('id_anggota'),
+        'id_petugas' => $this->input->post('id_petugas')
+    );
+
+    // Insert data peminjaman utama
+    $inserted_peminjaman = $this->M_peminjaman->insert_data('peminjaman', $data_peminjaman);
+
+    if ($inserted_peminjaman) {
+        // Ambil ID peminjaman yang baru saja diinsert
+        $id_peminjaman = $this->db->insert_id();
+
+        // Data untuk peminjaman detail
+        $data_peminjaman_detail = array(
+            'id_peminjaman' => $id_peminjaman,
+            'id_buku' => $this->input->post('id_buku'),
+            'tanggal_pengembalian' => $this->input->post('tanggal_pengembalian'),
+            'status' => 'Belum Kembali'
         );
-    
-        $inserted = $this->M_peminjaman->insert_data($data, 'peminjaman');
-    
-        if ($inserted) {
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Data berhasil ditambahkan!</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>');
+
+        // Ambil jumlah buku yang tersedia dari tabel buku
+        $buku = $this->M_peminjaman->get_buku_by_id($data_peminjaman_detail['id_buku']);
+
+        if ($buku && $buku->jumlah > 0) {
+            // Kurangi jumlah buku yang tersedia
+            $data_buku = array(
+                'jumlah' => $buku->jumlah - 1
+            );
+            $this->M_peminjaman->update_jumlah_buku($data_peminjaman_detail['id_buku'], $data_buku);
+
+            // Insert data peminjaman detail
+            $inserted_peminjaman_detail = $this->M_peminjaman->insert_data('peminjaman_detail', $data_peminjaman_detail);
+
+            if ($inserted_peminjaman_detail) {
+                $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Data berhasil ditambahkan!</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>');
+            } else {
+                $this->session->set_flashdata('error', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Gagal menambahkan data.</strong> Silakan coba lagi nanti.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>');
+            }
         } else {
             $this->session->set_flashdata('error', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Gagal menambahkan data.</strong> Silakan coba lagi nanti.
+                <strong>Stok buku habis.</strong> Buku tidak dapat dipinjam.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>');
         }
-    
-        redirect('petugas_data_peminjaman');
+    } else {
+        $this->session->set_flashdata('error', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Gagal menambahkan data peminjaman utama.</strong> Silakan coba lagi nanti.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
     }
+
+    redirect('petugas_data_peminjaman');
+}
+
 
     public function update_data_aksi()
 {
@@ -299,7 +344,7 @@ public function delete_data_aksi($id_peminjaman)
         </div>');
     }
 
-    redirect('petugas_data_buku');
+    redirect('petugas_data_peminjaman');
 }
 
 
