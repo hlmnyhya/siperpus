@@ -29,7 +29,7 @@
             <th>Tanggal Pesan</th>
             <th>Tanggal Kembali</th>
             <th>Tanggal Kembali Riil</th>
-            <th>Denda</th>
+            <th colspan="2">Denda</th>
             <th>Aksi</th>
         </tr>
     </thead>
@@ -50,9 +50,9 @@
                             required data-tanggal-kembali="<?php echo $user->tanggal_kembali; ?>">
                     </div>
                 </td>
-                <td>
-                    <div class="form-group">
-                        <input type="text" class="form-control denda" name="denda" readonly>
+               <td colspan="2">
+                   <div class="form-group">
+                       <input type="text" class="form-control denda" name="denda" readonly>
                     </div>
                 </td>
                 <td>
@@ -71,7 +71,7 @@
             <th>Tanggal Pesan</th>
             <th>Tanggal Kembali</th>
             <th>Tanggal Kembali Riil</th>
-            <th>Denda</th>
+            <th colspan="2">Denda</th>
             <th>Aksi</th>
         </tr>
     </tfoot>
